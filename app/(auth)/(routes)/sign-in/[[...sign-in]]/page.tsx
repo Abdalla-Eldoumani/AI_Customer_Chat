@@ -5,19 +5,29 @@ import { useEffect } from 'react';
 import axios from 'axios';
 
 export default function Page() {
-  const { userId } = useAuth();
+  const { userId, getToken } = useAuth();
 
   useEffect(() => {
-    if (userId) {
-      axios.post('/api/syncUser')
-        .then(response => {
+    const syncUser = async () => {
+      if (userId) {
+        try {
+          const sessionToken = await getToken();
+
+          const response = await axios.post('/api/syncUser', {}, {
+            headers: {
+              Authorization: `Bearer ${sessionToken}`,
+            },
+          });
+
           console.log('User synced:', response.data);
-        })
-        .catch(error => {
+        } catch (error) {
           console.error('Error syncing user:', error);
-        });
-    }
-  }, [userId]);
-  
+        }
+      }
+    };
+
+    syncUser();
+  }, [userId, getToken]);
+
   return <SignIn />;
 }
