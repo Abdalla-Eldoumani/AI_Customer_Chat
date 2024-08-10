@@ -1,23 +1,34 @@
 "use client";
 
-import { SignIn, useAuth } from "@clerk/nextjs";
+import { SignUp, useAuth } from "@clerk/nextjs";
 import { useEffect } from 'react';
 import axios from 'axios';
 
-export default function Page() {
-  const { userId } = useAuth();
+export default function SignUpPage() {
+  const { userId, getToken } = useAuth();
 
   useEffect(() => {
-    if (userId) {
-      axios.post('/api/syncUser')
-        .then(response => {
-          console.log('User synced:', response.data);
-        })
-        .catch(error => {
-          console.error('Error syncing user:', error);
-        });
-    }
-  }, [userId]);
+    const syncUser = async () => {
+      if (userId) {
+        try {
+          const sessionToken = await getToken();
+          console.log("Session Token:", sessionToken);
 
-  return <SignIn />;
+          const response = await axios.post('/api/syncUser', {}, {
+            headers: {
+              Authorization: `Bearer ${sessionToken}`,
+            },
+          });
+
+          console.log('User synced:', response.data);
+        } catch (error) {
+          console.error('Error syncing user:', error);
+        }
+      }
+    };
+
+    syncUser();
+  }, [userId, getToken]);
+
+  return <SignUp />;
 }

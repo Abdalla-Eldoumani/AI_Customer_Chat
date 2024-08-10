@@ -1,16 +1,18 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextResponse, NextRequest } from 'next/server';
 import prismadb from '@/lib/prismadb';
 import { getAuth } from '@clerk/nextjs/server';
 import { clerkClient } from '@clerk/nextjs/server';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export async function POST(req: NextRequest) {
+  const authHeader = req.headers.get('Authorization');
+  console.log("Authorization Header:", authHeader);
   console.log("API Route Hit");
 
   const { userId } = getAuth(req);
 
   if (!userId) {
     console.log("Unauthorized: No user ID found");
-    return res.status(401).json({ error: 'Unauthorized' });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   try {
@@ -19,7 +21,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     if (!user) {
       console.log("User not found in Clerk");
-      return res.status(404).json({ error: 'User not found' });
+      return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
     const existingUser = await prismadb.user.findUnique({
@@ -28,7 +30,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     if (existingUser) {
       console.log("User already exists in the database:", existingUser);
-      return res.status(200).json(existingUser);
+      return NextResponse.json(existingUser, { status: 200 });
     }
 
     const newUser = await prismadb.user.create({
@@ -40,9 +42,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     console.log("New User Created in Database:", newUser);
 
-    return res.status(201).json(newUser);
+    return NextResponse.json(newUser, { status: 201 });
   } catch (error) {
     console.error("Error syncing user:", error);
-    return res.status(500).json({ error: 'Internal Server Error' });
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
