@@ -13,7 +13,7 @@ export default function FeedbackForm() {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 mt-4">
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 mt-4 w-full max-w-md mx-auto">
       <h3 className="text-lg font-semibold mb-4 text-gray-800 dark:text-white">
         Feedback
       </h3>

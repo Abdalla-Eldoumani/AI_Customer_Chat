@@ -36,7 +36,7 @@ export default function ChatBox({ messages, onSendMessage }: ChatBoxProps) {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 flex flex-col w-[1200px] h-[600px]">
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 flex flex-col w-full h-full max-h-[500px] md:max-h-[600px]">
       <div className="flex-grow overflow-y-auto mb-4">
         {messages.map((message, index) => (
           <div

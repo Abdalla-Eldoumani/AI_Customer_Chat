@@ -13,9 +13,7 @@ export default function SuggestedQuestions({
   ];
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 w-80">
-      {" "}
-      {/* Adjusted width */}
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 w-full max-w-xs md:max-w-sm lg:max-w-md">
       <h3 className="text-lg font-semibold mb-4 text-gray-800 dark:text-white">
         Suggested Questions
       </h3>

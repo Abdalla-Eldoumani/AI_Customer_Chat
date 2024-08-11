@@ -51,10 +51,10 @@ export default function ChatInterface() {
 
   return (
     <div className="flex flex-col md:flex-row gap-8">
-      <div className="flex-grow">
+      <div className="w-full md:w-2/3 lg:w-3/4">
         <ChatBox messages={messages} onSendMessage={handleSendMessage} />
       </div>
-      <div className="w-full md:w-80">
+      <div className="w-full md:w-1/3 lg:w-1/4">
         <SuggestedQuestions onSelectQuestion={handleSendMessage} />
       </div>
     </div>
