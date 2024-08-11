@@ -15,7 +15,7 @@ export default function Header() {
           >
             <ArrowLeftIcon className="h-5 w-5 text-gray-800 dark:text-white" />
           </Link>
-          <h1 className="text-xl md:text-2xl font-bold text-blue-600 dark:text-blue-400">
+          <h1 className="text-2xl font-bold text-blue-600 dark:text-blue-400">
             Customer Support with AI
           </h1>
         </div>

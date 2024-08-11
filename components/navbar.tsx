@@ -3,16 +3,20 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useClerk, useUser, useAuth, UserButton } from "@clerk/nextjs";
-import { SunIcon, MoonIcon } from "@heroicons/react/24/solid";
+import { MdOutlineWbSunny } from "react-icons/md";
+import { FaRegMoon } from "react-icons/fa";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { useTheme } from "next-themes";
 
 export const Navbar = () => {
   const { signOut } = useClerk();
   const { isSignedIn } = useAuth();
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const { theme, setTheme } = useTheme();
+
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+    document.documentElement.classList.toggle("dark");
+  };
 
   return (
     <nav className="flex items-center justify-between p-6 bg-white dark:bg-gray-800 shadow-md">
@@ -28,11 +32,11 @@ export const Navbar = () => {
         <span className="text-xl font-bold">AI Support</span>
       </div>
       <div className="flex items-center space-x-4">
-        <Button variant="outline" onClick={() => setTheme((theme === "dark" ? "light" : "dark"))}>
-          {theme === "dark" ? (
-            <SunIcon className="h-5 w-5 text-yellow-400" />
+        <Button variant="outline" onClick={toggleTheme}>
+          {isDarkMode ? (
+            <MdOutlineWbSunny className="h-6 w-6 text-yellow-500" />
           ) : (
-            <MoonIcon className="h-5 w-5 text-gray-800" />
+            <FaRegMoon className="h-6 w-6 text-gray-500" />
           )}
         </Button>
         {isSignedIn ? (
