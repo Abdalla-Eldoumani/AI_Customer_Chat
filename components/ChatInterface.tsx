@@ -1,6 +1,8 @@
 import { useState } from "react";
 import ChatBox from "./ChatBox";
 import SuggestedQuestions from "./SuggestedQuestions";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 export default function ChatInterface() {
   const [messages, setMessages] = useState<{ text: string; isUser: boolean }[]>(
@@ -9,26 +11,16 @@ export default function ChatInterface() {
 
   const fetchAIresponse = async (question: string) => {
     try {
-      const response = await fetch(`/api/openAI`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ question: question }),
+      const response = await axios.post("/api/openAI", {
+        question: question,
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to answer");
-      }
-
-      const data = await response.json();
-      console.log(data.answer);
-
-      return data.answer;
+      toast.success("Successfully answered the question");
+      return response.data.answer;
     } catch (error) {
       console.error(error);
-      alert("Failed to answer");
-      return "Sorry, something went wrong. Please try again later."; // Fallback message in case of error
+      toast.error("Failed to answer the question");
+      return "Sorry, something went wrong. Please try again later.";
     }
   };
 
