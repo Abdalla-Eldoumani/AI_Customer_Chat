@@ -3,8 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useClerk, useUser, useAuth, UserButton } from "@clerk/nextjs";
-import { MdOutlineWbSunny } from "react-icons/md";
-import { FaRegMoon } from "react-icons/fa";
+import { SunIcon, MoonIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "next-themes";
@@ -30,10 +29,10 @@ export const Navbar = () => {
       </div>
       <div className="flex items-center space-x-4">
         <Button variant="outline" onClick={() => setTheme((theme === "dark" ? "light" : "dark"))}>
-          {isDarkMode ? (
-            <MdOutlineWbSunny className="h-6 w-6 text-yellow-500" />
+          {theme === "dark" ? (
+            <SunIcon className="h-5 w-5 text-yellow-400" />
           ) : (
-            <FaRegMoon className="h-6 w-6 text-gray-500" />
+            <MoonIcon className="h-5 w-5 text-gray-800" />
           )}
         </Button>
         {isSignedIn ? (
